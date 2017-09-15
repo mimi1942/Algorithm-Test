@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 # Create the haar cascade
+# chage the opencv path to yours
 cascPath = '/home/snu/opencv/opencv-3.2.0/data/haarcascades/haarcascade_frontalface_alt.xml'
 # cascPath = 'detect/haarcascade_frontalface_default.xml'
 faceCascade = cv2.CascadeClassifier(cascPath)

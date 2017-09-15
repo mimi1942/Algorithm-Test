@@ -3,6 +3,7 @@ import numpy as np
 
 recognizer = cv2.face.createLBPHFaceRecognizer()
 recognizer.load('trainner/trainner.yml')
+#chage the opencv path to yours
 cascadePath = '/home/snu/opencv/opencv-3.2.0/data/haarcascades/haarcascade_frontalface_alt.xml'
 faceCascade = cv2.CascadeClassifier(cascadePath);
 
@@ -23,7 +24,7 @@ while True:
                 Id="Sam"
         else:
             Id="Unknown"
-        cv2.putText(im,str(Id), (x,y+h), font, 4, 255)
+        cv2.putText(im,str(Id), (x,y+h), font, 2, 255)
     cv2.imshow('im',im)
     if cv2.waitKey(10) & 0xFF==ord('q'):
         break
