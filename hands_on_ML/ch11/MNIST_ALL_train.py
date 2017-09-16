@@ -1,8 +1,7 @@
 import tensorflow as tf
-from reader import reader
-from model import dnn
+from MNIST_ALL_reader import reader
+from MNIST_ALL_model import dnn
 import numpy as np
-import pickle
 
 
 # Loading data reader at Practice(2)
@@ -22,7 +21,7 @@ val_queue, val_weightedAvg = [],[]
 count, init_flag, best_val = 0, 0, 0
 
 batch_size = 16
-max_steps = 50000
+max_steps = 100000
 for i in range(max_steps):
 
   # For each iteration, first we get batch x&y data
@@ -57,26 +56,18 @@ for i in range(max_steps):
       weightedAvg = np.mean(val_queue)
       if init_flag == 0 :
         best_val = weightedAvg
-        save_path = saver.save(sess, "./save/model{}.ckpt".format(count))
+        save_path = saver.save(sess, "./MNIST_ALL_save/model{}.ckpt".format(count))
         init_flag = 1
       elif best_val < weightedAvg :
         best_val = weightedAvg
-        save_path = saver.save(sess, "./save/model{}.ckpt".format(count))
+        save_path = saver.save(sess, "./MNIST_ALL_save/model{}.ckpt".format(count))
       else :
         best_val = best_val
       val_queue.pop(0)
       count += 1
 
-    print("| steps %07d | Validation Accuracy: %.3lf, Best val_acc_avg : %.3lf" % (i, validation_acc, best_val))
+    print("| steps %07d | Validation Accuracy: %.3lf" % (i, validation_acc))
     print("start_index {}, length of batch_indices {}, end_index {}".format(start_index, len(batch_indices), end_index))
-
-# save last save_path
-with open('./save/last_save_path.dmp', 'wb') as f :
-  data = save_path
-  pickle.dump(data, f)
-  print("save the last_save_path")
-
-
 
 
 

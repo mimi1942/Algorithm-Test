@@ -3,11 +3,11 @@ import tensorflow
 from tensorflow.examples.tutorials.mnist import input_data
 class reader(object):
     def __init__(self):
-        mnist = input_data.read_data_sets("./MNIST_data/")
-        self.x_train = mnist.train.images[mnist.train.labels < 5].reshape([-1, 28, 28])
-        self.y_train = mnist.train.labels[mnist.train.labels < 5]
-        self.x_validation = mnist.validation.images[mnist.validation.labels < 5].reshape([-1, 28, 28])
-        self.y_validation = mnist.validation.labels[mnist.validation.labels < 5]
+        mnist = input_data.read_data_sets("./MNIST_data/", one_hot=True)
+        self.x_train = mnist.train.images.reshape([-1, 28, 28])
+        self.y_train = mnist.train.labels
+        self.x_validation = mnist.validation.images.reshape([-1, 28, 28])
+        self.y_validation = mnist.validation.labels
 
         print("y_train" , self.y_train.shape)
 

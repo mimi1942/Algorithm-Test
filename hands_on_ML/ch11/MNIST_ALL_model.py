@@ -1,5 +1,5 @@
 import tensorflow as tf
-from reader import reader
+from MNIST_ALL_reader import reader
 
 class dnn(object):
     def __init__(self):
@@ -10,7 +10,8 @@ class dnn(object):
 
         # Define model's input as tf.placeholder
         self.x = tf.placeholder(dtype=tf.float32, shape=[None, n_steps, n_input])
-        self.y = tf.placeholder(dtype=tf.int32, shape=[None])
+        # self.y = tf.placeholder(dtype=tf.float32, shape=[None, self.n_classes])
+        self.y = tf.placeholder(dtype=tf.int32, shape=[None, self.n_classes])
 
         size_of_hidden = 100
         # Define parameters for 3-layers dnn model
@@ -48,21 +49,14 @@ class dnn(object):
         prediction = tf.nn.softmax(logits, dim=-1)
 
 
-        y_onehot = tf.one_hot(
-            indices=self.y,
-            depth=self.n_classes,
-        )
-
-
         # We use L2 loss as cost function and average the batch's loss
-        self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_onehot, logits=logits))
+        self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.y, logits=logits))
 
         optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
 
         self.train_op = optimizer.minimize(self.loss)
 
-        pred_index = tf.cast(tf.argmax(prediction, dimension=1), tf.int32)
-        correct_prediction = tf.equal(pred_index, self.y)
+        correct_prediction = tf.equal(tf.argmax(prediction, 1), tf.argmax(self.y, 1))
         self.acc = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 
